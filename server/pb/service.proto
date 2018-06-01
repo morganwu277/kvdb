@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+
+package pb;
+
+// option _multiple_files = true;
+// option go_package = "server";
+// option go_outer_classname = "KVDBServiceProto";
+
+
+service KVDBService {
+  rpc Read (KVRequest) returns (KVResponse){};
+  rpc Write (KVRequest) returns (KVResponse){};
+}
+
+message KVRequest {
+  string key = 1;
+  string value = 2;
+}
+
+message KVResponse {
+  string key = 1;
+  string value = 2;
+  string errMsg = 3;
+}
