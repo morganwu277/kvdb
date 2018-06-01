@@ -9,6 +9,9 @@ import (
 	"os"
 	"strconv"
 
+	"fmt"
+	"time"
+
 	"github.com/morganwu277/kvdb/server/pb"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -52,21 +55,37 @@ func main() {
 	var wg sync.WaitGroup
 	keyBits := 10
 	valueBits := 100
+
+	ch := make(chan string, 1000)
+
+	go func() {
+		for {
+			s := <-ch
+			fmt.Println(s)
+			if s == "exit" {
+				os.Exit(1)
+			}
+		}
+	}()
+
 	for i := 1; i <= int(keyNum); i++ {
 		wg.Add(1)
 		go func(i int) {
 			k := randomStr(keyBits)
 			v := randomStr(valueBits)
+			start := time.Now()
 			_, err := c.Write(context.Background(), &pb.KVRequest{Key: k, Value: v})
+			end := time.Now()
 			if err != nil {
 				log.Printf(
 					"could not write, i: %v, key: %v, value: %v, error: %v \n",
 					i, k, v, err)
 			}
 			//log.Printf("success write <%s, %s>", r.Key, r.Value)
+			ch <- fmt.Sprintf("put %v-th kv-pair, elapsed seconds: %v ", i, end.Sub(start).Seconds())
 			wg.Done()
 		}(i)
 	}
 	wg.Wait()
-
+	ch <- "exit"
 }
