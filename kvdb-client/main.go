@@ -34,9 +34,8 @@ const (
 
 func main() {
 	args := os.Args
-	if len(args) > 1 {
-		log.Println(args[0])
-		log.Println(args[1])
+	if len(args) <= 1 {
+		log.Fatalf("Pls add a keys number argument after program name. Eg. ./kvdb-client 10 .\n")
 	}
 	keyNum, _ := strconv.ParseInt(args[1], 0, 0)
 
@@ -77,11 +76,12 @@ func main() {
 			_, err := c.Write(context.Background(), &pb.KVRequest{Key: k, Value: v})
 			end := time.Now()
 			if err != nil {
-				log.Printf(
+				log.Fatalf(
 					"could not write, i: %v, key: %v, value: %v, error: %v \n",
 					i, k, v, err)
+				wg.Done()
+				return
 			}
-			//log.Printf("success write <%s, %s>", r.Key, r.Value)
 			ch <- fmt.Sprintf("put %v-th kv-pair, elapsed seconds: %v ", i, end.Sub(start).Seconds())
 			wg.Done()
 		}(i)
