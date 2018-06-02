@@ -1,5 +1,9 @@
 LevelDB based Net-KV-Store
 ---
+# Motivation
+I think most people can ignore this project since it's really meaningless. So timeline is: 
+1. I do a app using leveldb as its store, since it will be quite large and high fequrency of access, that's why I didn't choose RDBMS such as MySQL. 
+2. One day, we need to scale. Boom... I have to make this part leveldb files able to be accessed from network! Here we began the story
 
 # Tips
 1. Trade off between response time and throughput
