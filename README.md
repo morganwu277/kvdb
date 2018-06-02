@@ -7,8 +7,8 @@ I think most people can ignore this project since it's really meaningless. So ti
 
 # Tips
 1. Trade off between response time and throughput
- - if you need throughput: try batch put, which means put lot of keys in one client, it will make latter keys response time increase
- - if you need response time, try not to put lot of keys at one time
+   - if you need throughput: try batch put, which means put lot of keys in one client, it will make latter keys response time increase
+   - if you need response time, try not to put lot of keys at one time
 
 # Credits
 
