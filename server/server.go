@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-// server is used to implement helloworld.GreeterServer.
+// server is used to implement the server defined in protobuf 
 type server struct {
 	db *db.KVDB
 }
